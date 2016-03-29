@@ -13,7 +13,7 @@ from sklearn import cross_validation
 import copy
 import os
 
-from Saul.loglogistic import LogLogistic
+from loglogistic import LogLogistic
 from het_loglogistic import HetLogLogistic
 
 Ms = [100]
