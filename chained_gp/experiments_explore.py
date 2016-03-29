@@ -38,14 +38,14 @@ starting_df = 4.0
 starting_r = 1.0
 
 script_dir = os.path.dirname(__file__)
-mcycle_relative = 'data/mcycle.csv'
-elevator_relative = 'data/elevators.data'
-mcycle_path = os.path.join(script_dir, mcycle_relative)
-elevator_path = os.path.join(script_dir, elevator_relative)
+# mcycle_relative = 'data/mcycle.csv'
+# elevator_relative = 'data/elevators.data'
+# mcycle_path = os.path.join(script_dir, mcycle_relative)
+# elevator_path = os.path.join(script_dir, elevator_relative)
 
 optimize_dfs = [True]
 
-full = True
+full = False
 if full:
     restarts = 5
     n_folds = 5
@@ -60,8 +60,8 @@ if full:
     xtol = 0
 else:
     restarts = 1
-    n_folds = 2
-    preopt_scg_iters = 20
+    n_folds = 5
+    preopt_scg_iters = 2
     preopt_restarts = 2
     opt_restarts = 2
     scg_iters = 3
@@ -1014,11 +1014,10 @@ Loading different datasets
 """
 def load_elevators(fold, seed, num_training):
     np.random.seed(seed)
-    #Have merged the training and the test, and then put the header in the same file
-    data = pd.read_csv(elevator_path)
-    data = data.reindex(np.random.permutation(data.index)) # Randomize so test isn't at the end
-    X = data.iloc[:, :-1].values
-    Y = data.iloc[:, -1].values[:, None]
+    data = pods.datasets.elevators(seed=seed)
+    X = data['X']
+    Y = data['Y']
+
     X = (X-X.mean(0))/X.std(0)
     Y = (Y-Y.mean(0))/Y.std(0)
 
@@ -1104,11 +1103,10 @@ def load_boston(fold, seed):
 
 def load_motorCorrupt(fold, seed):
     np.random.seed(seed)
-    #Have merged the training and the test, and then put the header in the same file
-    data = pd.read_csv(mcycle_path, index_col=0)
-    data = data.reindex(np.random.permutation(data.index)) # Randomize so test isn't at the end
-    X = data['times'].values[:, None]
-    Y = data['accel'].values[:, None]
+    data = pods.datasets.mcycle(seed=seed)
+
+    X = data['X']
+    Y = data['Y']
     X = (X-X.mean(0))/X.std(0)
     Y = (Y-Y.mean(0))/Y.std(0)
 
