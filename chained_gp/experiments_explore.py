@@ -45,7 +45,7 @@ script_dir = os.path.dirname(__file__)
 
 optimize_dfs = [True]
 
-full = False
+full = True
 if full:
     restarts = 5
     n_folds = 5
